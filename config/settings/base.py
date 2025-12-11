@@ -124,6 +124,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = 'static/'
 
-
-# Github secret
-GITHUB_WEBHOOK_SECRET = "598c7a5eb711f317b54db0b22def78ddd39d28b202d1226bb94256633467b022"
+# Github secret for deploy
+GITHUB_WEBHOOK_SECRET = config("GITHUB_WEBHOOK_SECRET")
