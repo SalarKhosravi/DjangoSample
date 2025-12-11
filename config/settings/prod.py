@@ -51,3 +51,6 @@ MEDIA_ROOT = "/home1/salidevl/deploy.salidevlab.ir/media"
 
 # Disable Django’s default debug toolbar signals
 DEBUG_PROPAGATE_EXCEPTIONS = False
+
+# Github secret for deploy
+GITHUB_WEBHOOK_SECRET = config("GITHUB_WEBHOOK_SECRET")

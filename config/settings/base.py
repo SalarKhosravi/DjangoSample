@@ -123,6 +123,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
-# Github secret for deploy
-GITHUB_WEBHOOK_SECRET = config("GITHUB_WEBHOOK_SECRET")
