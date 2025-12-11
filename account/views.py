@@ -1,15 +1,15 @@
+import subprocess
+import json
+
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
-import json
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 class TestApiView(APIView):
-
     @extend_schema(
         summary="Test API endpoint",
         description="Returns a simple hello message",
@@ -17,8 +17,6 @@ class TestApiView(APIView):
     )
     def get(self, request):
         return Response({"message": "Hello, world!"}, status=status.HTTP_200_OK)
-
-
 
 
 
@@ -35,7 +33,28 @@ def github_update_webhook(request):
     if not expected_token or received_token != expected_token:
         return HttpResponseForbidden("Invalid or missing token")
 
-    # Log for debugging (optional)
+    # Log payload for debugging
     print("GitHub webhook received:", request.body)
 
-    return JsonResponse({"message": "git webhook received successfuly"})
+    # --- Run deploy script ---
+    deploy_script = "/home1/salidevl/deploy.salidevlab.ir/update_repo.sh"
+
+    try:
+        result = subprocess.run(
+            [deploy_script],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        print("Deploy stdout:", result.stdout)
+        print("Deploy stderr:", result.stderr)
+    except subprocess.CalledProcessError as e:
+        # Log error output
+        print("Deploy failed stdout:", e.stdout)
+        print("Deploy failed stderr:", e.stderr)
+        return JsonResponse(
+            {"message": "deploy failed", "error": e.stderr},
+            status=500
+        )
+
+    return JsonResponse({"message": "deploy executed successfully"})
