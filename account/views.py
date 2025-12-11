@@ -38,4 +38,4 @@ def github_update_webhook(request):
     # Log for debugging (optional)
     print("GitHub webhook received:", request.body)
 
-    return JsonResponse({"message": "received successfuly"})
+    return JsonResponse({"message": "git webhook received successfuly"})
